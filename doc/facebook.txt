@@ -1,0 +1,109 @@
+*facebook.txt* Facebook client for Vim
+
+Author: daisuzu <daisuzu@gmail.com>
+License: Same terms as Vim itself (see :help license)
+
+==============================================================================
+CONTENTS                                                   *facebook-contents*
+
+    INTRODUCTION ......... |facebook-introduction|
+    REQUIREMENTS ......... |facebook-requirements|
+    USAGE ................ |facebook-usage|
+    CONFIGURATION ........ |facebook-configuration|
+    MISC ................. |facebook-misc|
+
+==============================================================================
+INTRODUCTION                                           *facebook-introduction*
+
+*facebook.vim* is a Facebook client for Vim. It provides the following 
+feature using the Graph API.
+
+    - Display the news feed of your Facebook page
+    - Publish a new post on your wall or Post a messages to friends comments
+    - Share the contents.(i.e. the Like button)
+    - Open any URL in messages in browser
+
+==============================================================================
+REQUIREMENTS                                           *facebook-requirements*
+
+    - Python 2.x(2.6 or higher) or 3.x [http://www.python.org/]
+    - fbconsole.py [https://github.com/facebook/fbconsole]
+    - webapi-vim [https://github.com/mattn/webapi-vim]
+    - open-browser.vim [https://github.com/tyru/open-browser.vim]
+    - cURL [http://curl.haxx.se/]
+
+==============================================================================
+USAGE                                                         *facebook-usage*
+
+*facebook.vim* defines the following command.
+
+:FacebookHome
+                            Open the buffer for viewing the news feed.
+                            Following key maps are available in this buffer.
+
+                            <CR>   Open cursor line URL in browser.
+                            <S-CR> Will be the following behavior depending
+                                   on the cursor line.
+
+                                   1)If cursor line is "Comments",
+                                   Open the buffer for a new post comments.
+                                   This buffer key maps is same of the buffer
+                                   opened by :Facebookwallpost command.
+
+                                   2)If cursor line is "Like",
+                                   Share the cursor line content.
+
+                                   3)Otherwise, Open cursor line content in
+                                   browser.
+
+:FacebookWallPost
+                            Open the buffer for publishing the a new post.
+                            Following key maps are available in this buffer.
+
+                            q      Delete this buffer and Publish to wall in
+                                   this buffer contents.
+
+:FacebookAuthenticate
+                            Get a user access token which used to make
+                            requests to Facebook's APIs. 
+                            The above two commands may invoke this command 
+                            implicitly to access the API.
+                            
+
+==============================================================================
+CONFIGURATION                                         *facebook-configuration*
+
+You can set the following options in your .vimrc to customize the behavior.
+>
+    let g:facebook_access_token_file = expand('~/.fb_access_token')
+    let g:facebook_timezone = '+0900'
+<
+------------------------------------------------------------------------------
+g:facebook_access_token_file                      *facebook_access_token_file*
+
+Set the path to store the access token file.
+
+Default: expand('~/.fb_access_token')
+
+------------------------------------------------------------------------------
+g:facebook_timezone                                        *facebook_timezone*
+
+Set the timezone of displaying to the buffer opend by :FacebookHome
+
+Default: '+0900'
+
+==============================================================================
+MISC                                                           *facebook-misc*
+
+Latest version is available at https://github.com/daisuzu/facebook.vim
+
+Currently, following features are not implemented.
+
+    - Post a messages to friends comments
+    - Share the contents.(i.e. the Like button)
+
+To implement this feature, please give me a little more time.
+And pull request and comments are welcome if there are bugs, or suggestions.
+Please contact to github page or email.
+
+vim:tw=78:ft=help:norl:
