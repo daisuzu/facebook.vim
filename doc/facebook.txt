@@ -54,7 +54,7 @@ USAGE                                                         *facebook-usage*
                                    Share the cursor line content.
 
                                    3)Otherwise, Open cursor line content in
-                                   browser.
+                                   browser.(same as <CR>)
 
 :FacebookWallPost
                             Open the buffer for publishing the a new post.
@@ -97,13 +97,7 @@ MISC                                                           *facebook-misc*
 
 Latest version is available at https://github.com/daisuzu/facebook.vim
 
-Currently, following features are not implemented.
-
-    - Post a messages to friends comments
-    - Share the contents.(i.e. the Like button)
-
-To implement this feature, please give me a little more time.
-And pull request and comments are welcome if there are bugs, or suggestions.
+Pull request and comments are welcome if there are bugs, or suggestions.
 Please contact to github page or email.
 
 vim:tw=78:ft=help:norl:

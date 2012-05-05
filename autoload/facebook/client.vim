@@ -15,8 +15,12 @@ function! s:fb_client.get(path) "{{{
 endfunction "}}}
 
 function! s:fb_client.post(path, content) "{{{
+    let param = {'access_token': s:fb_client.access_token}
+    if len(a:content)
+        let param['message'] = a:content
+    endif
 
-    let res = webapi#http#post("https://graph.facebook.com" . a:path, {'access_token': s:fb_client.access_token, 'message': a:content})
+    let res = webapi#http#post("https://graph.facebook.com" . a:path, param)
 
     if res.header[0] =~ 'HTTP/1.1 400'
         throw "AuthenticationError"
