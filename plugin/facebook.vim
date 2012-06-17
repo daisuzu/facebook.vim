@@ -14,6 +14,7 @@ if !exists('g:facebook_timezone')
 endif
 
 command! FacebookHome         : call facebook#home()
+command! FacebookFeed         : call facebook#feed()
 command! FacebookWallPost     : call facebook#wallpost()
 command! FacebookAuthenticate : call facebook#authenticate()
 

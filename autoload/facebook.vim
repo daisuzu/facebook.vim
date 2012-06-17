@@ -40,7 +40,7 @@ function! s:publishing_or_open(line) "{{{
     endif
 endfunction "}}}
 
-function! s:define_home_keymap() "{{{
+function! s:define_home_feed_keymap() "{{{
     nnoremap <buffer> <silent> <CR> :<C-u>call <SID>open_link(getline('.'))<CR>
     nnoremap <buffer> <silent> <S-CR> :<C-u>call <SID>publishing_or_open(getline('.'))<CR>
 endfunction "}}}
@@ -96,7 +96,19 @@ function! facebook#home()
     endtry
 
     call facebook#home#open(res)
-    call s:define_home_keymap()
+    call s:define_home_feed_keymap()
+endfunction
+
+function! facebook#feed()
+    try
+        let res = s:get_fb_client().get('/me/feed')
+    catch "AuthenticationError"
+        echomsg "Authentication Error"
+        return
+    endtry
+
+    call facebook#feed#open(res)
+    call s:define_home_feed_keymap()
 endfunction
 
 function! facebook#wallpost()

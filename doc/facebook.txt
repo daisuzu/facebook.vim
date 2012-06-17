@@ -56,6 +56,10 @@ USAGE                                                         *facebook-usage*
                                    3)Otherwise, Open cursor line content in
                                    browser.(same as <CR>)
 
+:FacebookFeed
+                            Open the buffer for viewing the profile feed.
+                            This buffer has the same key maps as :FacebookHome.
+
 :FacebookWallPost
                             Open the buffer for publishing the a new post.
                             Following key maps are available in this buffer.

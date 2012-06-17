@@ -2,18 +2,18 @@ let s:V = vital#of('facebook')
 let s:DateTime = s:V.import('DateTime')
 
 function! s:open_buffer() "{{{
-    if !exists('s:bufnr_home')
-        let s:bufnr_home = -1
+    if !exists('s:bufnr_feed')
+        let s:bufnr_feed = -1
     endif
-    if !bufexists(s:bufnr_home)
+    if !bufexists(s:bufnr_feed)
         execute 'tabnew'
-        edit `='[Facebook Home]'`
-        let s:bufnr_home = bufnr('%')
+        edit `='[Facebook Feed]'`
+        let s:bufnr_feed = bufnr('%')
     else
         let fb_tabpage = 0
         for i in range(tabpagenr('$'))
             let tablist = tabpagebuflist(i + 1)
-            if count(tablist, s:bufnr_home)
+            if count(tablist, s:bufnr_feed)
                 let fb_tabpage = i + 1
                 break
             endif
@@ -21,10 +21,10 @@ function! s:open_buffer() "{{{
 
         if fb_tabpage
             execute 'tabnext' fb_tabpage
-            execute bufwinnr(s:bufnr_home) 'wincmd w'
+            execute bufwinnr(s:bufnr_feed) 'wincmd w'
         else
             execute 'tabnew'
-            execute 'buffer' s:bufnr_home
+            execute 'buffer' s:bufnr_feed
         endif
     endif
 
@@ -87,7 +87,7 @@ function! s:show_data(res) "{{{
     setlocal syntax=facebook
 endfunction "}}}
 
-function! facebook#home#open(res)
+function! facebook#feed#open(res)
     call s:open_buffer()
     call s:show_data(a:res)
 endfunction
