@@ -49,7 +49,7 @@ function! s:define_post_keymap() "{{{
     nnoremap <buffer> <silent> q :<C-u>call <SID>do_post()<CR>
 endfunction "}}}
 
-function s:do_post() "{{{
+function! s:do_post() "{{{
     let post_buf = getline(1, '$')
     if post_buf == ['']
         echomsg "Post data is empty!"
