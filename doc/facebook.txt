@@ -56,6 +56,10 @@ USAGE                                                         *facebook-usage*
                                    3)Otherwise, Open cursor line content in
                                    browser.(same as <CR>)
 
+                            <Tab>  If cursor line is "Comments" or "Like",
+                                   open the buffer for display the
+                                   information of "Comments" or "Like".
+
 :FacebookFeed
                             Open the buffer for viewing the profile feed.
                             This buffer has the same key maps as :FacebookHome.

@@ -40,9 +40,29 @@ function! s:publishing_or_open(line) "{{{
     endif
 endfunction "}}}
 
+function! s:get_contents_info(line) "{{{
+    if a:line =~ '^comments:'
+        let object_id = '/' . s:get_object_id_from_buffer() . '/comments'
+    elseif a:line =~ '^like:'
+        let object_id = '/' . s:get_object_id_from_buffer() . '/likes'
+    else
+        return
+    endif
+
+    try
+        let res = s:get_fb_client().get(object_id)
+    catch "AuthenticationError"
+        echomsg "Authentication Error"
+        return
+    endtry
+    
+    call facebook#info#open(res)
+endfunction "}}}
+
 function! s:define_home_feed_keymap() "{{{
     nnoremap <buffer> <silent> <CR> :<C-u>call <SID>open_link(getline('.'))<CR>
     nnoremap <buffer> <silent> <S-CR> :<C-u>call <SID>publishing_or_open(getline('.'))<CR>
+    nnoremap <buffer> <silent> <Tab> :<C-u>call <SID>get_contents_info(getline('.'))<CR>
 endfunction "}}}
 
 function! s:define_post_keymap() "{{{
