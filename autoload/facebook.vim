@@ -73,6 +73,7 @@ function! s:do_post() "{{{
     let post_buf = getline(1, '$')
     if post_buf == ['']
         echomsg "Post data is empty!"
+        call facebook#post#close()
         return
     endif
 
@@ -82,7 +83,7 @@ function! s:do_post() "{{{
     if len(dst)
         try
             let res = s:get_fb_client().post(dst, content)
-            bdelete!
+            call facebook#post#close()
             echomsg "Succeed to Post!"
         catch "AuthenticationError"
             echomsg "Authentication Error"

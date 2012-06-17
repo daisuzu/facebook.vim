@@ -20,4 +20,9 @@ function! facebook#post#open(dst)
     call s:open_buffer(a:dst)
 endfunction
 
+function! facebook#post#close()
+    unlet s:bufnr_post
+    bdelete!
+endfunction
+
 " vim: foldmethod=marker
