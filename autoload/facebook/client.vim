@@ -41,7 +41,7 @@ function! s:get_access_token() "{{{
     let needs_auth = 1
     if filereadable(g:facebook_access_token_file)
         let data = webapi#json#decode(readfile(g:facebook_access_token_file)[0])
-        if localtime() < data['expires_at']
+        if has_key(data, 'expires_at') && localtime() < data['expires_at']
             let needs_auth = 0
         endif
     endif
