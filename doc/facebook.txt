@@ -15,7 +15,7 @@ CONTENTS                                                   *facebook-contents*
 ==============================================================================
 INTRODUCTION                                           *facebook-introduction*
 
-*facebook.vim* is a Facebook client for Vim. It provides the following 
+|facebook.vim| is a Facebook client for Vim. It provides the following 
 feature using the Graph API.
 
     - Display the news feed of your Facebook page
