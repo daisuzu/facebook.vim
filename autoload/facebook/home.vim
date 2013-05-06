@@ -49,7 +49,7 @@ function! s:show_data(res) "{{{
             let contents_url = v['actions'][0]['link']
         else
             let content_id = split(v['id'], '_')
-            let contents_url = 'http://www.facebook.com/' . content_id[0] . '/posts/' . content_id[1] 
+            let contents_url = 'http://www.facebook.com/' . content_id[0] . '/posts/' . content_id[1]
         endif
 
         call append(line('$'), '[' .s:local_time(v['created_time']) . '] ' . v['from']['name'] . ' ' . contents_url)

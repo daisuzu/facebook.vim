@@ -50,7 +50,7 @@ function! s:get_access_token() "{{{
         let auth_script = globpath(&rtp, 'fb_auth.py')
         if &shell =~# 'cmd'
             let auth_cmd = join([auth_script, g:facebook_access_token_file], '" "')
-            let auth_cmd = substitute(auth_cmd, '/', '\\', 'g') 
+            let auth_cmd = substitute(auth_cmd, '/', '\\', 'g')
             call system('cmd /c python "' . auth_cmd . '"')
         else
             let auth_cmd = join([auth_script, g:facebook_access_token_file])

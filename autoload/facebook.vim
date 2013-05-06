@@ -23,7 +23,7 @@ endfunction "}}}
 function! s:publishing_or_open(line) "{{{
     if a:line =~ '^comments:'
         call facebook#post#open(s:get_object_id_from_buffer())
-        call s:define_post_keymap()    
+        call s:define_post_keymap()
     elseif a:line =~ '^like:'
         let object_id = s:get_object_id_from_buffer()
         if len(object_id)
@@ -55,7 +55,7 @@ function! s:get_contents_info(line) "{{{
         echomsg "Authentication Error"
         return
     endtry
-    
+
     call facebook#info#open(res)
 endfunction "}}}
 
@@ -134,7 +134,7 @@ endfunction
 
 function! facebook#wallpost()
     call facebook#post#open('Wall')
-    call s:define_post_keymap()    
+    call s:define_post_keymap()
 endfunction
 
 function! facebook#authenticate()
