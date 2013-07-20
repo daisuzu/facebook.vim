@@ -64,7 +64,7 @@ def main(access_token_file='.fb_access_token'):
             'manage_notifications',
             'user_online_presence',
             'friends_online_presence',
-            'publish_checkins',
+            # 'publish_checkins',
             'publish_stream',
             'rsvp_event',
             # Open Graph Permissions

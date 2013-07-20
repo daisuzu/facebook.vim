@@ -72,7 +72,7 @@ function! s:show_data(res) "{{{
             call append(line('$'), 'link:' . v['link'])
         endif
         if has_key(v, 'comments')
-            call append(line('$'), 'comments:' . v['comments']['count'])
+            call append(line('$'), 'comments:' . len(v['comments']['data']))
         endif
         if has_key(v, 'likes')
             call append(line('$'), 'like:' . v['likes']['count'])
