@@ -1,3 +1,12 @@
+let s:V = vital#of('facebook.vim')
+let s:BufferManager = s:V.import('Vim.BufferManager')
+let s:DateTime = s:V.import('DateTime')
+
+let s:home_buffer = s:BufferManager.new()
+let s:feed_buffer = s:BufferManager.new()
+let s:info_buffer = s:BufferManager.new()
+let s:post_buffer = s:BufferManager.new()
+
 function! s:get_fb_client() "{{{
     if !exists("s:fb_client")
         let s:fb_client = facebook#client#get_instance()
@@ -22,7 +31,7 @@ endfunction "}}}
 
 function! s:publishing_or_open(line) "{{{
     if a:line =~ '^comments:'
-        call facebook#post#open(s:get_object_id_from_buffer())
+        call s:post_buffer.open('[Facebook Post - ' . s:get_object_id_from_buffer() . ']', {'opener': 'botright split'})
         call s:define_post_keymap()
     elseif a:line =~ '^like:'
         let object_id = s:get_object_id_from_buffer()
@@ -56,7 +65,8 @@ function! s:get_contents_info(line) "{{{
         return
     endtry
 
-    call facebook#info#open(res)
+    call s:info_buffer.open('[Facebook Info]', {'opener': 'vertical topleft split'})
+    call s:show_info(res)
 endfunction "}}}
 
 function! s:define_home_feed_keymap() "{{{
@@ -73,7 +83,7 @@ function! s:do_post() "{{{
     let post_buf = getline(1, '$')
     if post_buf == ['']
         echomsg "Post data is empty!"
-        call facebook#post#close()
+        bdelete!
         return
     endif
 
@@ -83,7 +93,7 @@ function! s:do_post() "{{{
     if len(dst)
         try
             let res = s:get_fb_client().post(dst, content)
-            call facebook#post#close()
+            bdelete!
             echomsg "Succeed to Post!"
         catch "AuthenticationError"
             echomsg "Authentication Error"
@@ -108,6 +118,81 @@ function! s:get_object_id_from_buffer() "{{{
     return join(matchlist(url, '\(\d*\)/posts/\(\d*\)')[1:2], '_')
 endfunction "}}}
 
+function! s:local_time(str) "{{{
+    return s:DateTime.from_date(
+                \ a:str[:3],
+                \ a:str[5:6],
+                \ a:str[8:9],
+                \ a:str[11:12],
+                \ a:str[14:15],
+                \ a:str[17:18],
+                \ a:str[19:]
+                \ ).to(g:facebook_timezone).to_string()
+endfunctio "}}}
+
+function! s:show_data(res) "{{{
+    for v in a:res['data']
+        if has_key(v, 'actions')
+            let contents_url = v['actions'][0]['link']
+        else
+            let content_id = split(v['id'], '_')
+            let contents_url = 'http://www.facebook.com/' . content_id[0] . '/posts/' . content_id[1]
+        endif
+
+        call append(line('$'), '[' .s:local_time(v['created_time']) . '] ' . v['from']['name'] . ' ' . contents_url)
+        if has_key(v, 'message')
+            call append(line('$'), map(split(v['message'], '\n'), '"  ".v:val'))
+        endif
+        if has_key(v, 'name')
+            call append(line('$'), 'name:' . v['name'])
+        endif
+        if has_key(v, 'description')
+            call append(line('$'), 'description:' . v['description'])
+        endif
+        if has_key(v, 'story')
+            call append(line('$'), 'story:' . v['story'])
+        endif
+        if has_key(v, 'place')
+            call append(line('$'), 'place:' . v['place']['name'])
+        endif
+        if has_key(v, 'link')
+            call append(line('$'), 'link:' . v['link'])
+        endif
+        if has_key(v, 'comments')
+            call append(line('$'), 'comments:' . len(v['comments']['data']))
+        else
+            call append(line('$'), 'comments:' . '0')
+        endif
+        if has_key(v, 'likes')
+            call append(line('$'), 'like:' . len(v['likes']['data']))
+        else
+            call append(line('$'), 'like:' . '0')
+        endif
+        call append(line('$'), '')
+    endfor
+
+    1 delete _
+    setlocal nomodified
+    setlocal syntax=facebook
+endfunction "}}}
+
+function! s:show_info(res) "{{{
+    for v in a:res['data']
+        if has_key(v, 'message')
+            call append(line('$'), '[' .s:local_time(v['created_time']) . '] ' . v['from']['name'] . 'http://')
+            call append(line('$'), map(split(v['message'], '\n'), '"  ".v:val'))
+        endif
+        if has_key(v, 'name')
+            call append(line('$'), 'name:' . v['name'])
+        endif
+        call append(line('$'), '')
+    endfor
+
+    1 delete _
+    setlocal nomodified
+    setlocal syntax=facebook
+endfunction "}}}
+
 function! facebook#home()
     try
         let res = s:get_fb_client().get('/me/home')
@@ -116,7 +201,8 @@ function! facebook#home()
         return
     endtry
 
-    call facebook#home#open(res)
+    call s:home_buffer.open('[Facebook Home]', {'opener': 'tabnew'})
+    call s:show_data(res)
     call s:define_home_feed_keymap()
 endfunction
 
@@ -128,12 +214,13 @@ function! facebook#feed()
         return
     endtry
 
-    call facebook#feed#open(res)
+    call s:feed_buffer.open('[Facebook Feed]', {'opener': 'tabnew'})
+    call s:show_data(res)
     call s:define_home_feed_keymap()
 endfunction
 
 function! facebook#wallpost()
-    call facebook#post#open('Wall')
+    call s:post_buffer.open('[Facebook Post - Wall]', {'opener': 'botright split'})
     call s:define_post_keymap()
 endfunction
 
