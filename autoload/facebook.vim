@@ -194,6 +194,7 @@ function! s:show_info(res) "{{{
 endfunction "}}}
 
 function! facebook#home()
+    echomsg "/me/home is deprecated"
     try
         let res = s:get_fb_client().get('/me/home')
     catch "AuthenticationError"

@@ -37,8 +37,8 @@ USAGE                                                         *facebook-usage*
 
 *facebook.vim* defines the following command.
 
-:FacebookHome
-                            Open the buffer for viewing the news feed.
+:FacebookFeed
+                            Open the buffer for viewing the profile feed.
                             Following key maps are available in this buffer.
 
                             <CR>   Open cursor line URL in browser.
@@ -60,9 +60,6 @@ USAGE                                                         *facebook-usage*
                                    open the buffer for display the
                                    information of "Comments" or "Like".
 
-:FacebookFeed
-                            Open the buffer for viewing the profile feed.
-                            This buffer has the same key maps as :FacebookHome.
 
 :FacebookWallPost
                             Open the buffer for publishing the a new post.
@@ -96,7 +93,7 @@ Default: expand('~/.fb_access_token')
 ------------------------------------------------------------------------------
 g:facebook_timezone                                        *facebook_timezone*
 
-Set the timezone of displaying to the buffer opend by :FacebookHome
+Set the timezone of displaying to the buffer opend by :FacebookFeed
 
 Default: '+0900'
 

@@ -42,11 +42,6 @@ def main(access_token_file='.fb_access_token'):
         'rsvp_event',
         'ads_read',
         'ads_management',
-        'manage_notifications',
-        'read_stream',
-        'read_mailbox',
-        'user_groups',
-        'user_status',
     ]
     fb.authenticate()
 
